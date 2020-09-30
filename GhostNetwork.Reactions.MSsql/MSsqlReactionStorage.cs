@@ -1,26 +1,25 @@
-﻿using System;
+﻿using GhostNetwork.Reactions.Domain;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GhostNetwork.Reactions.DAL
+
+namespace GhostNetwork.Reactions.MSsql
 {
-    public class ReactionStorage : IReactionStorage
+    public class MSsqlReactionStorage : IReactionStorage
     {
-        private static IDictionary<string, IDictionary<string, List<ReactionEntity>>> storage = new Dictionary<string, IDictionary<string, List<ReactionEntity>>>();
+        private static IDictionary<string, IDictionary<string, List<Reaction>>> storage = new Dictionary<string, IDictionary<string, List<Reaction>>>();
 
-        public void AddAsync(string entity, string id, ReactionEntity reaction)
+        public void AddAsync(string entity, string id, Reaction reaction)
         {
             if (!storage.ContainsKey(entity))
             {
-                storage[entity] = new Dictionary<string, List<ReactionEntity>>();
+                storage[entity] = new Dictionary<string, List<Reaction>>();
             }
 
 
             if (!storage[entity].ContainsKey(id))
             {
-                storage[entity][id] = new List<ReactionEntity>();
+                storage[entity][id] = new List<Reaction>();
             }
 
             storage[entity][id].Add(reaction);
@@ -36,7 +35,5 @@ namespace GhostNetwork.Reactions.DAL
             return storage[entity][id].GroupBy(r => r.Type)
                 .ToDictionary(rg => rg.Key, rg => rg.Count());
         }
-
-
     }
 }

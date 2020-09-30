@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GhostNetwork.Reactions.Api", "GhostNetwork.Reactions.Api\GhostNetwork.Reactions.Api.csproj", "{30D12F56-DEE8-48CF-8EBF-8A776BFAE740}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GhostNetwork.Reactions.DAL", "GhostNetwork.Reactions.DAL\GhostNetwork.Reactions.DAL.csproj", "{85A0EFA1-2176-460A-9CEA-2B0EDC9A8A9D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{EA8E6C4F-0A42-4E23-BB0E-178732A94FF1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GhostNetwork.Reactions.MSsql", "GhostNetwork.Reactions.MSsql\GhostNetwork.Reactions.MSsql.csproj", "{4E708BD0-8315-46F5-91AF-B0160E3111C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GhostNetwork.Reactions.Domain", "GhostNetwork.Reactions.Domain\GhostNetwork.Reactions.Domain.csproj", "{4683465F-E4FD-4200-AD05-CD901CCEBA49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,13 +21,20 @@ Global
 		{30D12F56-DEE8-48CF-8EBF-8A776BFAE740}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30D12F56-DEE8-48CF-8EBF-8A776BFAE740}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30D12F56-DEE8-48CF-8EBF-8A776BFAE740}.Release|Any CPU.Build.0 = Release|Any CPU
-		{85A0EFA1-2176-460A-9CEA-2B0EDC9A8A9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{85A0EFA1-2176-460A-9CEA-2B0EDC9A8A9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{85A0EFA1-2176-460A-9CEA-2B0EDC9A8A9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{85A0EFA1-2176-460A-9CEA-2B0EDC9A8A9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E708BD0-8315-46F5-91AF-B0160E3111C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E708BD0-8315-46F5-91AF-B0160E3111C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E708BD0-8315-46F5-91AF-B0160E3111C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E708BD0-8315-46F5-91AF-B0160E3111C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4683465F-E4FD-4200-AD05-CD901CCEBA49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4683465F-E4FD-4200-AD05-CD901CCEBA49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4683465F-E4FD-4200-AD05-CD901CCEBA49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4683465F-E4FD-4200-AD05-CD901CCEBA49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4E708BD0-8315-46F5-91AF-B0160E3111C0} = {EA8E6C4F-0A42-4E23-BB0E-178732A94FF1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {210615D9-B1DE-4FCB-877F-E1F76B5B4635}

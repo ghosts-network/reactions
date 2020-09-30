@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GhostNetwork.Reactions.DAL
+namespace GhostNetwork.Reactions.Domain
 {
-    public class ReactionEntity
+    public class Reaction
     {
-        public ReactionEntity(string author, string type)
+        public Reaction(string author, string type)
         {
             Author = author;
             Type = type;
