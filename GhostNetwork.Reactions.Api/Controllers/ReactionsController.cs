@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GhostNetwork.Reactions.Api.Controllers
@@ -10,14 +12,27 @@ namespace GhostNetwork.Reactions.Api.Controllers
     {
         private static ReactionStorage storage = new ReactionStorage();
 
+
+        /// <summary>
+        /// Returns stats for one entity
+        /// </summary>
+        /// <response code="200">Returns stats for one entity</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{entity}/{id}")]
-        public ActionResult GetAsync([FromRoute] string entity, [FromRoute] string id)
+        public ActionResult<Dictionary<string, int>> GetAsync([FromRoute] string entity, [FromRoute] string id)
         {
             return Ok(storage.GetStats(entity, id));
         }
 
+        /// <summary>
+        /// Add type of reaction to entity
+        /// </summary>
+        /// <response code="201">Add type of reaction to entity</response>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("{entity}/{id}/{type}")]
-        public ActionResult AddAsync([FromRoute] string entity, [FromRoute] string id,
+        public ActionResult<Dictionary<string, int>> AddAsync([FromRoute] string entity, [FromRoute] string id,
             [FromHeader] string author, [FromRoute] string type)
         {
             storage.AddAsync(entity, id, new Reaction(author, type));
