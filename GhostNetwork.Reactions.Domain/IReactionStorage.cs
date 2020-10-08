@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GhostNetwork.Reactions.Domain
 {
     public interface IReactionStorage
     {
-        IDictionary<string, int> GetStats(string entity, string id);
+        Task<IDictionary<string, int>> GetStats(string key);
 
-        void AddAsync(string entity, string id, Reaction reaction);
-
+        Task AddAsync(string key, string author, string type);
     }
 }

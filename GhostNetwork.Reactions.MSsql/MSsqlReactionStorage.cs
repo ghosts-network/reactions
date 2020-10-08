@@ -1,39 +1,44 @@
 ﻿using GhostNetwork.Reactions.Domain;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace GhostNetwork.Reactions.MSsql
 {
     public class MSsqlReactionStorage : IReactionStorage
     {
-        private static IDictionary<string, IDictionary<string, List<Reaction>>> storage = new Dictionary<string, IDictionary<string, List<Reaction>>>();
+        private readonly MSsqlContext context;
 
-        public void AddAsync(string entity, string id, Reaction reaction)
+        public MSsqlReactionStorage(MSsqlContext context)
         {
-            if (!storage.ContainsKey(entity))
-            {
-                storage[entity] = new Dictionary<string, List<Reaction>>();
-            }
-
-
-            if (!storage[entity].ContainsKey(id))
-            {
-                storage[entity][id] = new List<Reaction>();
-            }
-
-            storage[entity][id].Add(reaction);
+            this.context = context;
         }
 
-        public IDictionary<string, int> GetStats(string entity, string id)
+        public async Task AddAsync(string key, string author, string type)
         {
-            if (!storage.ContainsKey(entity) || !storage[entity].ContainsKey(id))
+            if (key != null && author != null && type != null)
             {
-                return new Dictionary<string, int>();
-            }
+                var created = new ReactionEntity
+                {
+                    Id = Guid.NewGuid(),
+                    Key = key,
+                    Author = author,
+                    Type = type
+                };
 
-            return storage[entity][id].GroupBy(r => r.Type)
-                .ToDictionary(rg => rg.Key, rg => rg.Count());
+                await context.ReactionEntities.AddAsync(created);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<IDictionary<string, int>> GetStats(string key)
+        {
+            var result = await context.ReactionEntities.Where(x => x.Key == key)
+                .ToDictionaryAsync(x => x.Id.ToString(), x => x.Type);
+
+            return result.GroupBy(r => r.Value).ToDictionary(rg => rg.Key, rg => rg.Count());
         }
     }
 }

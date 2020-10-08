@@ -7,6 +7,14 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200930145743_TestMig.cs" />
     <Compile Remove="Migrations\20200930145743_TestMig.Designer.cs" />
+    <Compile Remove="Migrations\20201006143659_Reaction.cs" />
+    <Compile Remove="Migrations\20201006143659_Reaction.Designer.cs" />
+    <Compile Remove="Migrations\20201007065955_Reaction.cs" />
+    <Compile Remove="Migrations\20201007065955_Reaction.Designer.cs" />
+    <Compile Remove="Migrations\20201008133121_Reaction.cs" />
+    <Compile Remove="Migrations\20201008133121_Reaction.Designer.cs" />
+    <Compile Remove="Migrations\20201008134420_Reaction.cs" />
+    <Compile Remove="Migrations\20201008134420_Reaction.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,10 +30,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>

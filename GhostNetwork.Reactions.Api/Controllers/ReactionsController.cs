@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using GhostNetwork.Reactions.MSsql;
+using System.Threading.Tasks;
 using GhostNetwork.Reactions.Domain;
+using System.Collections.Generic;
 
 namespace GhostNetwork.Reactions.Api.Controllers
 {
@@ -10,11 +10,11 @@ namespace GhostNetwork.Reactions.Api.Controllers
     [ApiController]
     public class ReactionsController : ControllerBase
     {
-        private readonly IReactionStorage _reactionStorage;
+        private readonly IReactionStorage reactionStorage;
 
-        public ReactionsController(IReactionStorage storage)
+        public ReactionsController(IReactionStorage reactionStorage)
         {
-            _reactionStorage = storage;
+            this.reactionStorage = reactionStorage;
         }
 
         /// <summary>
@@ -23,15 +23,15 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <response code="200">Returns stats for one entity</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{entity}/{id}")]
-        public ActionResult<IDictionary<string, int>> GetAsync([FromRoute] string entity, [FromRoute] string id)
+        [HttpGet("{key}")]
+        public async Task<ActionResult<IDictionary<string, int>>> GetAsync([FromRoute] string key)
         {
-            if (_reactionStorage.GetStats(entity, id) == null)
+            if (key == null)
             {
                 return NotFound();
             }
 
-            return Ok(_reactionStorage.GetStats(entity, id));
+            return Ok(await reactionStorage.GetStats(key));
         }
 
         /// <summary>
@@ -40,13 +40,13 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <response code="201">Add type of reaction to entity</response>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost("{entity}/{id}/{type}")]
-        public ActionResult<Dictionary<string, List<ReactionEntity>>> AddAsync([FromRoute] string entity, [FromRoute] string id,
-            [FromHeader] string author, [FromRoute] string type)
+        [HttpPost("{key}/{type}")]
+        public async Task<ActionResult<IDictionary<string, int>>> AddAsync([FromRoute] string key, 
+            [FromRoute] string type, [FromHeader] string author)
         {
-            _reactionStorage.AddAsync(entity, id, new Reaction(author, type));
+            await reactionStorage.AddAsync(key, author, type);
 
-            return Ok(_reactionStorage.GetStats(entity, id));
+            return Ok(await reactionStorage.GetStats(key));
         }
     }
 }

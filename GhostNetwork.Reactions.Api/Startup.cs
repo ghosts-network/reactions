@@ -8,8 +8,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using GhostNetwork.Reactions.MSsql;
 using GhostNetwork.Reactions.Domain;
+using GhostNetwork.Reactions.MSsql;
 
 namespace GhostNetwork.Reactions.Api
 {
@@ -36,7 +36,7 @@ namespace GhostNetwork.Reactions.Api
                 x.IncludeXmlComments(xmlPath);
             });
 
-            services.AddDbContext<DataContext>(options =>
+            services.AddDbContext<MSsqlContext>(options =>
               options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("GhostNetwork.Reactions.MSsql")));
 
