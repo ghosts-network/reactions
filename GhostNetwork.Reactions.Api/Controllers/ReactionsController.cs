@@ -13,6 +13,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
         private readonly IReactionStorage reactionStorage;
 
         public ReactionsController(IReactionStorage reactionStorage)
+
         {
             this.reactionStorage = reactionStorage;
         }
