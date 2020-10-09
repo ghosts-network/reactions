@@ -26,11 +26,6 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [HttpGet("{key}")]
         public async Task<ActionResult<IDictionary<string, int>>> GetAsync([FromRoute] string key)
         {
-            if (key == null)
-            {
-                return NotFound();
-            }
-
             return Ok(await reactionStorage.GetStats(key));
         }
 

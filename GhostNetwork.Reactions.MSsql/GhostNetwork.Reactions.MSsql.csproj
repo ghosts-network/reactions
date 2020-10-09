@@ -5,19 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200930145743_TestMig.cs" />
-    <Compile Remove="Migrations\20200930145743_TestMig.Designer.cs" />
-    <Compile Remove="Migrations\20201006143659_Reaction.cs" />
-    <Compile Remove="Migrations\20201006143659_Reaction.Designer.cs" />
-    <Compile Remove="Migrations\20201007065955_Reaction.cs" />
-    <Compile Remove="Migrations\20201007065955_Reaction.Designer.cs" />
-    <Compile Remove="Migrations\20201008133121_Reaction.cs" />
-    <Compile Remove="Migrations\20201008133121_Reaction.Designer.cs" />
-    <Compile Remove="Migrations\20201008134420_Reaction.cs" />
-    <Compile Remove="Migrations\20201008134420_Reaction.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="3.1.8" />

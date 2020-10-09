@@ -36,9 +36,11 @@ namespace GhostNetwork.Reactions.Api
                 x.IncludeXmlComments(xmlPath);
             });
 
+            var connection = @"Server=DESKTOP-FQ83PKI;Database=Reactions;Trusted_Connection=True;";
+
             services.AddDbContext<MSsqlContext>(options =>
               options.UseSqlServer(
-                Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("GhostNetwork.Reactions.MSsql")));
+              connection, b => b.MigrationsAssembly("GhostNetwork.Reactions.MSsql")));
 
             services.AddScoped<IReactionStorage, MSsqlReactionStorage>();
         }

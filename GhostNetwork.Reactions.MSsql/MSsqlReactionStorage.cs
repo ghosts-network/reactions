@@ -18,19 +18,16 @@ namespace GhostNetwork.Reactions.MSsql
 
         public async Task AddAsync(string key, string author, string type)
         {
-            if (key != null && author != null && type != null)
+            var created = new ReactionEntity
             {
-                var created = new ReactionEntity
-                {
-                    Id = Guid.NewGuid(),
-                    Key = key,
-                    Author = author,
-                    Type = type
-                };
+                Id = Guid.NewGuid(),
+                Key = key,
+                Author = author,
+                Type = type
+            };
 
-                await context.ReactionEntities.AddAsync(created);
-                await context.SaveChangesAsync();
-            }
+            await context.ReactionEntities.AddAsync(created);
+            await context.SaveChangesAsync();
         }
 
         public async Task<IDictionary<string, int>> GetStats(string key)
