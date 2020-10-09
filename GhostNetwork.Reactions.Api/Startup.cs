@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using GhostNetwork.Reactions.Domain;
 using GhostNetwork.Reactions.MSsql;
+
 
 namespace GhostNetwork.Reactions.Api
 {
@@ -43,6 +45,7 @@ namespace GhostNetwork.Reactions.Api
               connection, b => b.MigrationsAssembly("GhostNetwork.Reactions.MSsql")));
 
             services.AddScoped<IReactionStorage, MSsqlReactionStorage>();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
