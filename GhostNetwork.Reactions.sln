@@ -1,6 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GhostNetwork.Reactions.Api", "GhostNetwork.Reactions.Api\GhostNetwork.Reactions.Api.csproj", "{30D12F56-DEE8-48CF-8EBF-8A776BFAE740}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GhostNetwork.Reactions.Api", "GhostNetwork.Reactions.Api\GhostNetwork.Reactions.Api.csproj", "{30D12F56-DEE8-48CF-8EBF-8A776BFAE740}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{EA8E6C4F-0A42-4E23-BB0E-178732A94FF1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GhostNetwork.Reactions.MSsql", "GhostNetwork.Reactions.MSsql\GhostNetwork.Reactions.MSsql.csproj", "{4E708BD0-8315-46F5-91AF-B0160E3111C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GhostNetwork.Reactions.Domain", "GhostNetwork.Reactions.Domain\GhostNetwork.Reactions.Domain.csproj", "{F437B668-A843-4757-94AB-9C34840DDBB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +21,22 @@ Global
 		{30D12F56-DEE8-48CF-8EBF-8A776BFAE740}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30D12F56-DEE8-48CF-8EBF-8A776BFAE740}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30D12F56-DEE8-48CF-8EBF-8A776BFAE740}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E708BD0-8315-46F5-91AF-B0160E3111C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E708BD0-8315-46F5-91AF-B0160E3111C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E708BD0-8315-46F5-91AF-B0160E3111C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E708BD0-8315-46F5-91AF-B0160E3111C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F437B668-A843-4757-94AB-9C34840DDBB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F437B668-A843-4757-94AB-9C34840DDBB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F437B668-A843-4757-94AB-9C34840DDBB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F437B668-A843-4757-94AB-9C34840DDBB2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4E708BD0-8315-46F5-91AF-B0160E3111C0} = {EA8E6C4F-0A42-4E23-BB0E-178732A94FF1}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {210615D9-B1DE-4FCB-877F-E1F76B5B4635}
 	EndGlobalSection
 EndGlobal

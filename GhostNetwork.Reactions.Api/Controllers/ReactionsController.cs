@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using GhostNetwork.Reactions.Domain;
+using System.Collections.Generic;
 
 namespace GhostNetwork.Reactions.Api.Controllers
 {
@@ -10,8 +10,13 @@ namespace GhostNetwork.Reactions.Api.Controllers
     [ApiController]
     public class ReactionsController : ControllerBase
     {
-        private static ReactionStorage storage = new ReactionStorage();
+        private readonly IReactionStorage reactionStorage;
 
+        public ReactionsController(IReactionStorage reactionStorage)
+
+        {
+            this.reactionStorage = reactionStorage;
+        }
 
         /// <summary>
         /// Returns stats for one entity
@@ -19,10 +24,10 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <response code="200">Returns stats for one entity</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{entity}/{id}")]
-        public ActionResult<Dictionary<string, int>> GetAsync([FromRoute] string entity, [FromRoute] string id)
+        [HttpGet("{key}")]
+        public async Task<ActionResult<IDictionary<string, int>>> GetAsync([FromRoute] string key)
         {
-            return Ok(storage.GetStats(entity, id));
+            return Ok(await reactionStorage.GetStats(key));
         }
 
         /// <summary>
@@ -31,57 +36,13 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <response code="201">Add type of reaction to entity</response>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost("{entity}/{id}/{type}")]
-        public ActionResult<Dictionary<string, int>> AddAsync([FromRoute] string entity, [FromRoute] string id,
-            [FromHeader] string author, [FromRoute] string type)
+        [HttpPost("{key}/{type}")]
+        public async Task<ActionResult<IDictionary<string, int>>> AddAsync([FromRoute] string key, 
+            [FromRoute] string type, [FromHeader] string author)
         {
-            storage.AddAsync(entity, id, new Reaction(author, type));
+            await reactionStorage.AddAsync(key, author, type);
 
-            return Ok(storage.GetStats(entity, id));
+            return Ok(await reactionStorage.GetStats(key));
         }
-    }
-
-    public class ReactionStorage
-    {
-        private static IDictionary<string, IDictionary<string, List<Reaction>>> storage = new Dictionary<string, IDictionary<string, List<Reaction>>>();
-
-        public IDictionary<string, int> GetStats(string entity, string id)
-        {
-            if (!storage.ContainsKey(entity) || !storage[entity].ContainsKey(id))
-            {
-                return new Dictionary<string, int>();
-            }
-
-            return storage[entity][id].GroupBy(r => r.Type)
-                .ToDictionary(rg => rg.Key, rg => rg.Count());
-        }
-
-        public void AddAsync(string entity, string id, Reaction reaction)
-        {
-            if (!storage.ContainsKey(entity))
-            {
-                storage[entity] = new Dictionary<string, List<Reaction>>();
-            }
-            
-            
-            if (!storage[entity].ContainsKey(id))
-            {
-                storage[entity][id] = new List<Reaction>();
-            }
-
-            storage[entity][id].Add(reaction);
-        }
-    }
-
-    public class Reaction
-    {
-        public Reaction(string author, string type)
-        {
-            Author = author;
-            Type = type;
-        }
-
-        public string Author { get; }
-        public string Type { get; }
     }
 }
