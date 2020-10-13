@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GhostNetwork.Reactions.Domain
@@ -10,10 +9,8 @@ namespace GhostNetwork.Reactions.Domain
 
         Task AddAsync(string key, string author, string type);
 
-        Task DeletAsync(string key);
+        Task DeleteAsync(string key, string author);
 
         Task UpdateAsync(string key, string type, string author);
-
-        Task<bool> AuthorReaction(string key, string author);
     }
 }

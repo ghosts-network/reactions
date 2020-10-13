@@ -49,20 +49,13 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <summary>
         /// Remove type of reaction
         /// </summary>
-        /// <response code="204">Remove type of reaction</response>
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        /// <response code="200">Remove reaction by key and author</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{key}")]
         public async Task<ActionResult<IDictionary<string, int>>> DeleteAsynk([FromRoute] string key, [FromHeader] string author)
         {
-            var authorReaction = await reactionStorage.AuthorReaction(key, author);
-
-            if (!authorReaction)
-            {
-                return NotFound();
-            }
-
-            await reactionStorage.DeletAsync(key);
+            await reactionStorage.DeleteAsync(key, author);
 
             return Ok(await reactionStorage.GetStats(key));
         }
@@ -70,20 +63,13 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <summary>
         /// Update type of reaction
         /// </summary>
-        /// <response code="200">Update type of reaction</response>
+        /// <response code="200">Update type of reaction by key and author</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{key}/{type}")]
         public async Task<ActionResult<IDictionary<string, int>>> UpdateAsync([FromRoute] string key,
             [FromRoute] string type, [FromHeader] string author)
         {
-            var authorReaction = await reactionStorage.AuthorReaction(key, author);
-
-            if (!authorReaction)
-            {
-                return NotFound();
-            }
-
             await reactionStorage.UpdateAsync(key, type, author);
 
             return Ok(await reactionStorage.GetStats(key));

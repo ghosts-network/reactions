@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using GhostNetwork.Reactions.Domain;
-using System.Security.Cryptography.X509Certificates;
 
 namespace GhostNetwork.Reactions.MSsql
 {
@@ -19,23 +18,20 @@ namespace GhostNetwork.Reactions.MSsql
 
         public async Task AddAsync(string key, string author, string type)
         {
-            var created = new ReactionEntity
+            var entity = context.ReactionEntities.Where(x => x.Key == key && x.Author == author).Count();
+
+            if (entity == 0)
             {
-                Id = Guid.NewGuid(),
-                Key = key,
-                Author = author,
-                Type = type
-            };
-
-            await context.ReactionEntities.AddAsync(created);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task DeletAsync(string key)
-        {
-            var entity = await context.ReactionEntities.FirstOrDefaultAsync(x => x.Key == key);
-            context.ReactionEntities.Remove(entity);
-            await context.SaveChangesAsync();
+                var created = new ReactionEntity
+                {
+                    Id = Guid.NewGuid(),
+                    Key = key,
+                    Author = author,
+                    Type = type
+                };
+                await context.ReactionEntities.AddAsync(created);
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task<IDictionary<string, int>> GetStats(string key)
@@ -46,29 +42,19 @@ namespace GhostNetwork.Reactions.MSsql
             return result.GroupBy(r => r.Value).ToDictionary(rg => rg.Key, rg => rg.Count());
         }
 
-        public async Task<bool> AuthorReaction(string key, string author)
-        {
-            var reaction = await context.ReactionEntities.AsNoTracking().FirstOrDefaultAsync(x => x.Key == key);
-
-            if (reaction == null)
-            {
-                return false;
-            }
-
-            if (reaction.Author != author)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         public async Task UpdateAsync(string key, string type, string author)
         {
-            var entity = await context.ReactionEntities.FirstOrDefaultAsync(x => x.Key == key);
+            var entity = await context.ReactionEntities.FirstOrDefaultAsync(x => x.Key == key && x.Author == author);
             entity.Type = type;
 
             context.ReactionEntities.Update(entity);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(string key, string author)
+        {
+            var entity = await context.ReactionEntities.SingleOrDefaultAsync(x => x.Key == key && x.Author == author);
+            context.ReactionEntities.Remove(entity);
             await context.SaveChangesAsync();
         }
     }
