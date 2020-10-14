@@ -26,7 +26,7 @@ namespace GhostNetwork.Reactions.Api
             });
 
             services.AddDbContext<MssqlContext>(options => options
-                .UseSqlServer(Configuration["MSSQL_ADDRESS"], b => b.MigrationsAssembly("GhostNetwork.Reactions.Mssql")));
+                .UseSqlServer(Configuration["MSSQL_CONNECTION"], b => b.MigrationsAssembly("GhostNetwork.Reactions.Mssql")));
 
             services.AddScoped<IReactionStorage, MssqlReactionStorage>();
 

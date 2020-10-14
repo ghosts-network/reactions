@@ -11,6 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GhostNetwork.Reactions.Mssq
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GhostNetwork.Reactions.Domain", "GhostNetwork.Reactions.Domain\GhostNetwork.Reactions.Domain.csproj", "{F437B668-A843-4757-94AB-9C34840DDBB2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{49CABE91-C8F8-477E-B6C9-3C02AB3F7959}"
+ProjectSection(SolutionItems) = preProject
+	Dockerfile = Dockerfile
+	GhostNetwork.ruleset = GhostNetwork.ruleset
+	Readme.md = Readme.md
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
