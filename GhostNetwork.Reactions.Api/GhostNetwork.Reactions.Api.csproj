@@ -13,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\GhostNetwork.Reactions.Mssql\GhostNetwork.Reactions.Mssql.csproj" />
+      <ProjectReference Include="..\Infrastructure\GhostNetwork.Reactions.Mssql\GhostNetwork.Reactions.Mssql.csproj" />
     </ItemGroup>
 
     <PropertyGroup>
