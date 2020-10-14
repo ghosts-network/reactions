@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GhostNetwork.Reactions.Domain;
 
-
 namespace GhostNetwork.Reactions.Api.Controllers
 {
     [Route("[controller]")]
@@ -53,7 +52,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{key}")]
-        public async Task<ActionResult<IDictionary<string, int>>> DeleteAsynk([FromRoute] string key, [FromHeader] string author)
+        public async Task<ActionResult<IDictionary<string, int>>> DeleteAsync([FromRoute] string key, [FromHeader] string author)
         {
             await reactionStorage.DeleteAsync(key, author);
 
