@@ -12,7 +12,6 @@ namespace GhostNetwork.Reactions.Api.Controllers
         private readonly IReactionStorage reactionStorage;
 
         public ReactionsController(IReactionStorage reactionStorage)
-
         {
             this.reactionStorage = reactionStorage;
         }
@@ -36,8 +35,10 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("{key}/{type}")]
-        public async Task<ActionResult<IDictionary<string, int>>> AddAsync([FromRoute] string key, 
-            [FromRoute] string type, [FromHeader] string author)
+        public async Task<ActionResult<IDictionary<string, int>>> AddAsync(
+            [FromRoute] string key,
+            [FromRoute] string type,
+            [FromHeader] string author)
         {
             await reactionStorage.AddAsync(key, author, type);
 
@@ -65,8 +66,10 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{key}/{type}")]
-        public async Task<ActionResult<IDictionary<string, int>>> UpdateAsync([FromRoute] string key,
-            [FromRoute] string type, [FromHeader] string author)
+        public async Task<ActionResult<IDictionary<string, int>>> UpdateAsync(
+            [FromRoute] string key,
+            [FromRoute] string type,
+            [FromHeader] string author)
         {
             await reactionStorage.UpdateAsync(key, type, author);
 
