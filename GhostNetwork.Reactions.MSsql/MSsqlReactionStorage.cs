@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using GhostNetwork.Reactions.Domain;
 
-namespace GhostNetwork.Reactions.MSsql
+namespace GhostNetwork.Reactions.Mssql
 {
-    public class MSsqlReactionStorage : IReactionStorage
+    public class MssqlReactionStorage : IReactionStorage
     {
-        private readonly MSsqlContext context;
+        private readonly MssqlContext context;
 
-        public MSsqlReactionStorage(MSsqlContext context)
+        public MssqlReactionStorage(MssqlContext context)
         {
             this.context = context;
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace GhostNetwork.Reactions.MSsql.Migrations
+namespace GhostNetwork.Reactions.Mssql.Migrations
 {
     public partial class Reaction : Migration
     {

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GhostNetwork.Reactions.Api"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{EA8E6C4F-0A42-4E23-BB0E-178732A94FF1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GhostNetwork.Reactions.MSsql", "GhostNetwork.Reactions.MSsql\GhostNetwork.Reactions.MSsql.csproj", "{4E708BD0-8315-46F5-91AF-B0160E3111C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GhostNetwork.Reactions.Mssql", "GhostNetwork.Reactions.Mssql\GhostNetwork.Reactions.Mssql.csproj", "{4E708BD0-8315-46F5-91AF-B0160E3111C0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GhostNetwork.Reactions.Domain", "GhostNetwork.Reactions.Domain\GhostNetwork.Reactions.Domain.csproj", "{F437B668-A843-4757-94AB-9C34840DDBB2}"
 EndProject

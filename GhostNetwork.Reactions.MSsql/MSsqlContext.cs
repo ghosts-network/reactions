@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 
-namespace GhostNetwork.Reactions.MSsql
+namespace GhostNetwork.Reactions.Mssql
 {
-    public class MSsqlContext : DbContext
+    public class MssqlContext : DbContext
     {
-        public MSsqlContext(DbContextOptions<MSsqlContext> options) : base(options)
+        public MssqlContext(DbContextOptions<MssqlContext> options) : base(options)
         {
         }
 
