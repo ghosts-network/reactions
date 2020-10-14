@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GhostNetwork.Reactions.Domain
+namespace GhostNetwork.Reactions
 {
     public interface IReactionStorage
     {
