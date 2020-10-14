@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using GhostNetwork.Reactions.Domain;
 
 namespace GhostNetwork.Reactions.Api.Controllers
 {
