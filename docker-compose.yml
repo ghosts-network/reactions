@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  api:
+    image: ghcr.io/gh-network/ghostnetwork-reactions:latest
+    ports:
+      - "5200:80"
+    environment:
+      - MSSQL_ADDRESS=db
+      - MSSQL_PORT=1433
+      - MSSQL_USER=SA
+      - MSSQL_PASSWORD=Pass1234
+      - ASPNETCORE_ENVIRONMENT=Development
+  db:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Pass1234

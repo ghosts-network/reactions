@@ -16,7 +16,7 @@ namespace GhostNetwork.Reactions.Api
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -26,15 +26,17 @@ namespace GhostNetwork.Reactions.Api
             });
 
             services.AddDbContext<MssqlContext>(options => options
-                .UseSqlServer(Configuration["MSSQL_CONNECTION"], b => b.MigrationsAssembly("GhostNetwork.Reactions.Mssql")));
+                .UseSqlServer(MssqlConnectionString(), b => b.MigrationsAssembly(typeof(MssqlContext).Assembly.FullName)));
 
             services.AddScoped<IReactionStorage, MssqlReactionStorage>();
 
             services.AddControllers();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MssqlContext context)
         {
+            context.Database.Migrate();
+
             if (env.IsDevelopment())
             {
                 app.UseSwagger()
@@ -47,6 +49,11 @@ namespace GhostNetwork.Reactions.Api
             app.UseRouting();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        }
+
+        private string MssqlConnectionString()
+        {
+            return $"Server={Configuration["MSSQL_ADDRESS"]},{Configuration["MSSQL_PORT"]};Database=Reaction;User={Configuration["MSSQL_USER"]};Password={Configuration["MSSQL_PASSWORD"]}";
         }
     }
 }
