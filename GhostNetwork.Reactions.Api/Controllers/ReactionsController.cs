@@ -40,6 +40,11 @@ namespace GhostNetwork.Reactions.Api.Controllers
             [FromRoute] string type,
             [FromHeader] string author)
         {
+            if (author == null)
+            {
+                return BadRequest();
+            }
+
             await reactionStorage.AddAsync(key, author, type);
 
             return Ok(await reactionStorage.GetStats(key));
