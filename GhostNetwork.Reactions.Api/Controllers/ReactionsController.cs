@@ -17,9 +17,9 @@ namespace GhostNetwork.Reactions.Api.Controllers
         }
 
         /// <summary>
-        /// Returns stats for one entity
+        /// Returns stats for one entity.
         /// </summary>
-        /// <response code="200">Returns stats for one entity</response>
+        /// <response code="200">Returns stats for one entity by key.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{key}")]
@@ -29,9 +29,9 @@ namespace GhostNetwork.Reactions.Api.Controllers
         }
 
         /// <summary>
-        /// Add type of reaction to entity
+        /// Add type of reaction to entity.
         /// </summary>
-        /// <response code="201">Add type of reaction to entity</response>
+        /// <response code="201">Reaction is added.</response>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("{key}/{type}")]
@@ -42,7 +42,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
         {
             if (author == null)
             {
-                return BadRequest();
+                return BadRequest(new { error = "Author is required" });
             }
 
             await reactionStorage.AddAsync(key, author, type);
@@ -51,23 +51,28 @@ namespace GhostNetwork.Reactions.Api.Controllers
         }
 
         /// <summary>
-        /// Remove type of reaction
+        /// Remove type of reaction.
         /// </summary>
-        /// <response code="200">Remove reaction by key and author</response>
+        /// <response code="200">Remove reaction by key and author.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{key}")]
         public async Task<ActionResult<IDictionary<string, int>>> DeleteAsync([FromRoute] string key, [FromHeader] string author)
         {
+            if (author == null)
+            {
+                return BadRequest(new { error = "Author is required" });
+            }
+
             await reactionStorage.DeleteAsync(key, author);
 
             return Ok(await reactionStorage.GetStats(key));
         }
 
         /// <summary>
-        /// Update type of reaction
+        /// Update type of reaction.
         /// </summary>
-        /// <response code="200">Update type of reaction by key and author</response>
+        /// <response code="200">Update type of reaction by key and author.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{key}/{type}")]
@@ -76,6 +81,11 @@ namespace GhostNetwork.Reactions.Api.Controllers
             [FromRoute] string type,
             [FromHeader] string author)
         {
+            if (author == null)
+            {
+                return BadRequest(new { error = "Author is required" });
+            }
+
             await reactionStorage.UpdateAsync(key, type, author);
 
             return Ok(await reactionStorage.GetStats(key));
