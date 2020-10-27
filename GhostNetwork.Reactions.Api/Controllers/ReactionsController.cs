@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,13 +39,8 @@ namespace GhostNetwork.Reactions.Api.Controllers
         public async Task<ActionResult<IDictionary<string, int>>> AddAsync(
             [FromRoute] string key,
             [FromRoute] string type,
-            [FromHeader] string author)
+            [Required, FromHeader] string author)
         {
-            if (author == null)
-            {
-                return BadRequest(new { error = "Author is required" });
-            }
-
             await reactionStorage.AddAsync(key, author, type);
 
             return Ok(await reactionStorage.GetStats(key));
@@ -57,13 +53,8 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{key}")]
-        public async Task<ActionResult<IDictionary<string, int>>> DeleteAsync([FromRoute] string key, [FromHeader] string author)
+        public async Task<ActionResult<IDictionary<string, int>>> DeleteAsync([FromRoute] string key, [Required, FromHeader] string author)
         {
-            if (author == null)
-            {
-                return BadRequest(new { error = "Author is required" });
-            }
-
             await reactionStorage.DeleteAsync(key, author);
 
             return Ok(await reactionStorage.GetStats(key));
@@ -79,13 +70,8 @@ namespace GhostNetwork.Reactions.Api.Controllers
         public async Task<ActionResult<IDictionary<string, int>>> UpdateAsync(
             [FromRoute] string key,
             [FromRoute] string type,
-            [FromHeader] string author)
+            [Required, FromHeader] string author)
         {
-            if (author == null)
-            {
-                return BadRequest(new { error = "Author is required" });
-            }
-
             await reactionStorage.UpdateAsync(key, type, author);
 
             return Ok(await reactionStorage.GetStats(key));
