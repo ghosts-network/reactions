@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Infrastructure\GhostNetwork.Reactions.MongoDb\GhostNetwork.Reactions.MongoDb.csproj" />
       <ProjectReference Include="..\Infrastructure\GhostNetwork.Reactions.Mssql\GhostNetwork.Reactions.Mssql.csproj" />
     </ItemGroup>
 
