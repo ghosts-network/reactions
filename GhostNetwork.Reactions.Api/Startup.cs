@@ -23,9 +23,15 @@ namespace GhostNetwork.Reactions.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSwaggerGen(x =>
+            services.AddSwaggerGen(options =>
             {
-                x.SwaggerDoc("v1", new OpenApiInfo { Title = "Reactions", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Reactions",
+                    Version = "1.0.0"
+                });
+
+                options.OperationFilter<OperationIdFilter>();
             });
 
             if (Configuration.GetSection("MONGO_ADDRESS").Exists())
