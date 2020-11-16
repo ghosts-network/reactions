@@ -14,18 +14,6 @@ namespace GhostNetwork.Reactions.MongoDb
             this.context = context;
         }
 
-        public async Task AddAsync(string key, string author, string type)
-        {
-            var entity = new ReactionEntity
-            {
-                Key = key,
-                Author = author,
-                Type = type
-            };
-
-            await context.Reactions.InsertOneAsync(entity);
-        }
-
         public async Task<IDictionary<string, int>> GetStats(string key)
         {
             var filter = Builders<ReactionEntity>.Filter.Eq(p => p.Key, key);
@@ -40,7 +28,7 @@ namespace GhostNetwork.Reactions.MongoDb
                 .ToDictionary(rg => rg.Key, rg => rg.Count());
         }
 
-        public async Task UpdateAsync(string key, string type, string author)
+        public async Task UpsertAsync(string key, string author, string type)
         {
             var filter = Builders<ReactionEntity>.Filter.Eq(p => p.Key, key)
                          & Builders<ReactionEntity>.Filter.Eq(p => p.Author, author);
@@ -48,7 +36,7 @@ namespace GhostNetwork.Reactions.MongoDb
             var update = Builders<ReactionEntity>.Update
                 .Set(r => r.Type, type);
 
-            await context.Reactions.UpdateOneAsync(filter, update);
+            await context.Reactions.UpdateOneAsync(filter, update, new UpdateOptions() { IsUpsert = true });
         }
 
         public async Task DeleteAsync(string key, string author)

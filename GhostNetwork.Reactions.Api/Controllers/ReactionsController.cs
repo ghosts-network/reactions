@@ -41,7 +41,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
             [FromRoute] string type,
             [Required, FromHeader] string author)
         {
-            await reactionStorage.AddAsync(key, author, type);
+            await reactionStorage.UpsertAsync(key, author, type);
 
             return Ok(await reactionStorage.GetStats(key));
         }
@@ -72,7 +72,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
             [FromRoute] string type,
             [Required, FromHeader] string author)
         {
-            await reactionStorage.UpdateAsync(key, type, author);
+            await reactionStorage.UpsertAsync(key, author, type);
 
             return Ok(await reactionStorage.GetStats(key));
         }
