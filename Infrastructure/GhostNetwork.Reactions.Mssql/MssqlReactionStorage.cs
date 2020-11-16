@@ -15,24 +15,6 @@ namespace GhostNetwork.Reactions.Mssql
             this.context = context;
         }
 
-        public async Task AddAsync(string key, string author, string type)
-        {
-            if (await context.ReactionEntities.AnyAsync(x => x.Key == key && x.Author == author))
-            {
-                return;
-            }
-
-            var created = new ReactionEntity
-            {
-                Id = Guid.NewGuid(),
-                Key = key,
-                Author = author,
-                Type = type
-            };
-            await context.ReactionEntities.AddAsync(created);
-            await context.SaveChangesAsync();
-        }
-
         public async Task<IDictionary<string, int>> GetStats(string key)
         {
             var result = await context.ReactionEntities
@@ -44,14 +26,28 @@ namespace GhostNetwork.Reactions.Mssql
                 .ToDictionary(rg => rg.Key, rg => rg.Count());
         }
 
-        public async Task UpdateAsync(string key, string type, string author)
+        public async Task UpsertAsync(string key, string author, string type)
         {
-            var entity = await context.ReactionEntities
-                .FirstOrDefaultAsync(x => x.Key == key && x.Author == author);
+            var existing = await context.ReactionEntities.FirstOrDefaultAsync(r => r.Key == key && r.Author == author);
 
-            entity.Type = type;
+            if (existing != null)
+            {
+                existing.Type = type;
 
-            context.ReactionEntities.Update(entity);
+                context.ReactionEntities.Update(existing);
+                await context.SaveChangesAsync();
+
+                return;
+            }
+
+            var created = new ReactionEntity
+            {
+                Id = Guid.NewGuid(),
+                Key = key,
+                Author = author,
+                Type = type
+            };
+            await context.ReactionEntities.AddAsync(created);
             await context.SaveChangesAsync();
         }
 
