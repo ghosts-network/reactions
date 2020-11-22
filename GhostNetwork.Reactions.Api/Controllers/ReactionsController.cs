@@ -51,7 +51,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
         {
             await reactionStorage.UpsertAsync(key, author, type);
 
-            return Ok(await reactionStorage.GetStats(key));
+            return Created(string.Empty, await reactionStorage.GetStats(key));
         }
 
         /// <summary>
