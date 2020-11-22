@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace GhostNetwork.Reactions.Api.Controllers
 {
@@ -26,7 +27,14 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [HttpGet("{key}")]
         public async Task<ActionResult<IDictionary<string, int>>> GetAsync([FromRoute] string key)
         {
-            return Ok(await reactionStorage.GetStats(key));
+            var reaction = await reactionStorage.GetStats(key);
+
+            if (!reaction.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(reaction);
         }
 
         /// <summary>
