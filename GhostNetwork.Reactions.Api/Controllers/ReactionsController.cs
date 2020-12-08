@@ -30,6 +30,20 @@ namespace GhostNetwork.Reactions.Api.Controllers
         }
 
         /// <summary>
+        /// Returns reaction by author.
+        /// </summary>
+        /// <response code="200">Returns reaction by author and key.</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{key}/author")]
+        public async Task<ActionResult<IDictionary<string, int>>> GetReactionByAuthor(
+            [FromRoute] string key,
+            [Required, FromHeader] string author)
+        {
+            return Ok(await reactionStorage.GetReactionByAuthor(key, author));
+        }
+
+        /// <summary>
         /// Add type of reaction to entity.
         /// </summary>
         /// <response code="201">Reaction is added.</response>

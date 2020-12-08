@@ -28,6 +28,19 @@ namespace GhostNetwork.Reactions.MongoDb
                 .ToDictionary(rg => rg.Key, rg => rg.Count());
         }
 
+        public async Task<IDictionary<string, int>> GetReactionByAuthor(string key, string author)
+        {
+            var filter = Builders<ReactionEntity>.Filter.Eq(p => p.Key, key)
+                         & Builders<ReactionEntity>.Filter.Eq(p => p.Author, author);
+
+            var result = await context.Reactions.Find(filter).ToListAsync();
+
+            return result
+                .ToDictionary(x => x.Id.ToString(), x => x.Type)
+                .GroupBy(r => r.Value)
+                .ToDictionary(rg => rg.Key, rg => rg.Count());
+        }
+
         public async Task UpsertAsync(string key, string author, string type)
         {
             var filter = Builders<ReactionEntity>.Filter.Eq(p => p.Key, key)

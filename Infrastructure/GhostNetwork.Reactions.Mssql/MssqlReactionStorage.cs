@@ -60,5 +60,16 @@ namespace GhostNetwork.Reactions.Mssql
 
             await context.SaveChangesAsync();
         }
+
+        public async Task<IDictionary<string, int>> GetReactionByAuthor(string key, string author)
+        {
+            var result = await context.ReactionEntities
+                .Where(x => x.Key == key && x.Author == author)
+                .ToDictionaryAsync(x => x.Id.ToString(), x => x.Type);
+
+            return result
+                .GroupBy(r => r.Value)
+                .ToDictionary(rg => rg.Key, rg => rg.Count());
+        }
     }
 }
