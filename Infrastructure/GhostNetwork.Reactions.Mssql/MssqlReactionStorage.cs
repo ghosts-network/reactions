@@ -54,11 +54,24 @@ namespace GhostNetwork.Reactions.Mssql
         public async Task DeleteAsync(string key, string author)
         {
             var entity = await context.ReactionEntities
-                .SingleOrDefaultAsync(x => x.Key == key && x.Author == author);
+                .FirstOrDefaultAsync(x => x.Key == key && x.Author == author);
 
             context.ReactionEntities.Remove(entity);
 
             await context.SaveChangesAsync();
+        }
+
+        public async Task<Reaction> GetReactionByAuthor(string key, string author)
+        {
+            var reaction = await context.ReactionEntities.FirstOrDefaultAsync(x => x.Key == key && x.Author == author);
+
+            return reaction == null ? null : ToDomain(reaction);
+        }
+
+        private static Reaction ToDomain(ReactionEntity entity)
+        {
+            return new Reaction(
+                entity.Type);
         }
     }
 }
