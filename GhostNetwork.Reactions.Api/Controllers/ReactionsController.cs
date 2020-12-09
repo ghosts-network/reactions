@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,14 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [HttpGet("{key}")]
         public async Task<ActionResult<IDictionary<string, int>>> GetAsync([FromRoute] string key)
         {
-            return Ok(await reactionStorage.GetStats(key));
+            var result = await reactionStorage.GetStats(key);
+
+            if (!result.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         /// <summary>
@@ -40,7 +48,14 @@ namespace GhostNetwork.Reactions.Api.Controllers
             [FromRoute] string key,
             [Required, FromHeader] string author)
         {
-            return Ok(await reactionStorage.GetReactionByAuthor(key, author));
+            var result = await reactionStorage.GetReactionByAuthor(key, author);
+
+            if (!result.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         /// <summary>
@@ -67,7 +82,9 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{key}")]
-        public async Task<ActionResult<IDictionary<string, int>>> DeleteAsync([FromRoute] string key, [Required, FromHeader] string author)
+        public async Task<ActionResult<IDictionary<string, int>>> DeleteAsync(
+            [FromRoute] string key,
+            [Required, FromHeader] string author)
         {
             await reactionStorage.DeleteAsync(key, author);
 
