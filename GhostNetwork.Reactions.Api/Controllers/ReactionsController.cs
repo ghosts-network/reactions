@@ -50,7 +50,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
         {
             var result = await reactionStorage.GetReactionByAuthor(key, author);
 
-            if (!result.Any())
+            if (result == null)
             {
                 return NotFound();
             }

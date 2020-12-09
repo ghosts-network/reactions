@@ -7,7 +7,7 @@ namespace GhostNetwork.Reactions
     {
         Task<IDictionary<string, int>> GetStats(string key);
 
-        Task<IDictionary<string, int>> GetReactionByAuthor(string key, string author);
+        Task<Reaction> GetReactionByAuthor(string key, string author);
 
         Task UpsertAsync(string key, string author, string type);
 
