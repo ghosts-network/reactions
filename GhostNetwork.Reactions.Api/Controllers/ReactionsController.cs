@@ -44,7 +44,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{key}/author")]
-        public async Task<ActionResult<Reaction>> GetReactionByAuthor(
+        public async Task<ActionResult<IDictionary<string, int>>> GetReactionByAuthor(
             [FromRoute] string key,
             [Required, FromHeader] string author)
         {
