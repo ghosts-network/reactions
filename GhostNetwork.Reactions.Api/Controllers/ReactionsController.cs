@@ -29,11 +29,6 @@ namespace GhostNetwork.Reactions.Api.Controllers
         {
             var result = await reactionStorage.GetStats(key);
 
-            if (!result.Any())
-            {
-                return NotFound();
-            }
-
             return Ok(result);
         }
 
@@ -49,11 +44,6 @@ namespace GhostNetwork.Reactions.Api.Controllers
             [Required, FromHeader] string author)
         {
             var result = await reactionStorage.GetReactionByAuthor(key, author);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
 
             return Ok(result);
         }
