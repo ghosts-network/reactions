@@ -65,7 +65,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("{key}/{type}")]
-        public async Task<ActionResult<IDictionary<string, int>>> AddAsync(
+        public async Task<ActionResult<IDictionary<string, int>>> UpsertAsync(
             [FromRoute] string key,
             [FromRoute] string type,
             [Required, FromHeader] string author)
@@ -87,23 +87,6 @@ namespace GhostNetwork.Reactions.Api.Controllers
             [Required, FromHeader] string author)
         {
             await reactionStorage.DeleteAsync(key, author);
-
-            return Ok(await reactionStorage.GetStats(key));
-        }
-
-        /// <summary>
-        /// Update type of reaction.
-        /// </summary>
-        /// <response code="200">Update type of reaction by key and author.</response>
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPut("{key}/{type}")]
-        public async Task<ActionResult<IDictionary<string, int>>> UpdateAsync(
-            [FromRoute] string key,
-            [FromRoute] string type,
-            [Required, FromHeader] string author)
-        {
-            await reactionStorage.UpsertAsync(key, author, type);
 
             return Ok(await reactionStorage.GetStats(key));
         }
