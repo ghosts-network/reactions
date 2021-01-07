@@ -21,6 +21,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <summary>
         /// Returns stats for one entity.
         /// </summary>
+        /// <param name="key">Entity key</param>
         /// <response code="200">Returns stats for one entity by key.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -40,6 +41,8 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <summary>
         /// Returns reaction by author.
         /// </summary>
+        /// <param name="key">Entity key</param>
+        /// <param name="author">Author of reaction</param>
         /// <response code="200">Returns reaction by author and key.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -61,6 +64,9 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <summary>
         /// Add type of reaction to entity.
         /// </summary>
+        /// <param name="key">Entity key</param>
+        /// <param name="type">Reaction type</param>
+        /// <param name="author">Author of reaction</param>
         /// <response code="201">Reaction is added.</response>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -78,6 +84,8 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <summary>
         /// Remove type of reaction.
         /// </summary>
+        /// <param name="key">Entity key</param>
+        /// <param name="author">Author of reaction</param>
         /// <response code="200">Remove reaction by key and author.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
