@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace GhostNetwork.Reactions.Api
+namespace GhostNetwork.Reactions.Api.Helpers.OpenApi
 {
     public class OperationIdFilter : IOperationFilter
     {
