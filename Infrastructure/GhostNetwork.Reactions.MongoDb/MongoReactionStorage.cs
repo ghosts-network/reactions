@@ -49,12 +49,19 @@ namespace GhostNetwork.Reactions.MongoDb
             await context.Reactions.UpdateOneAsync(filter, update, new UpdateOptions() { IsUpsert = true });
         }
 
-        public async Task DeleteAsync(string key, string author)
+        public async Task DeleteByAuthorAsync(string key, string author)
         {
             var filter = Builders<ReactionEntity>.Filter.Eq(p => p.Key, key)
                          & Builders<ReactionEntity>.Filter.Eq(p => p.Author, author);
 
             await context.Reactions.DeleteOneAsync(filter);
+        }
+
+        public async Task DeleteAsync(string key)
+        {
+            var filter = Builders<ReactionEntity>.Filter.Eq(p => p.Key, key);
+
+            await context.Reactions.DeleteManyAsync(filter);
         }
 
         private static Reaction ToDomain(ReactionEntity entity)

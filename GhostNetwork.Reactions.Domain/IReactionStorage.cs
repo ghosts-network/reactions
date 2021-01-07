@@ -11,6 +11,8 @@ namespace GhostNetwork.Reactions
 
         Task UpsertAsync(string key, string author, string type);
 
-        Task DeleteAsync(string key, string author);
+        Task DeleteByAuthorAsync(string key, string author);
+
+        Task DeleteAsync(string key);
     }
 }
