@@ -5,18 +5,18 @@
         <CodeAnalysisRuleSet>../GhostNetwork.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);1591</NoWarn>
+    </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.8">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
       <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Infrastructure\GhostNetwork.Reactions.MongoDb\GhostNetwork.Reactions.MongoDb.csproj" />
-      <ProjectReference Include="..\Infrastructure\GhostNetwork.Reactions.Mssql\GhostNetwork.Reactions.Mssql.csproj" />
     </ItemGroup>
 
 </Project>

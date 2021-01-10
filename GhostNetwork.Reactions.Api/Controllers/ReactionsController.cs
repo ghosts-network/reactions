@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <summary>
         /// Returns stats for one entity.
         /// </summary>
+        /// <param name="key">Entity key</param>
         /// <response code="200">Returns stats for one entity by key.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -33,18 +35,43 @@ namespace GhostNetwork.Reactions.Api.Controllers
             {
                 return NotFound();
             }
-
             return Ok(reaction);
+        }
+
+        /// <summary>
+        /// Returns reaction by author.
+        /// </summary>
+        /// <param name="key">Entity key</param>
+        /// <param name="author">Author of reaction</param>
+        /// <response code="200">Returns reaction by author and key.</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{key}/author")]
+        public async Task<ActionResult<Reaction>> GetReactionByAuthor(
+            [FromRoute] string key,
+            [Required, FromHeader] string author)
+        {
+            var result = await reactionStorage.GetReactionByAuthor(key, author);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         /// <summary>
         /// Add type of reaction to entity.
         /// </summary>
+        /// <param name="key">Entity key</param>
+        /// <param name="type">Reaction type</param>
+        /// <param name="author">Author of reaction</param>
         /// <response code="201">Reaction is added.</response>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("{key}/{type}")]
-        public async Task<ActionResult<IDictionary<string, int>>> AddAsync(
+        public async Task<ActionResult<IDictionary<string, int>>> UpsertAsync(
             [FromRoute] string key,
             [FromRoute] string type,
             [Required, FromHeader] string author)
@@ -55,37 +82,39 @@ namespace GhostNetwork.Reactions.Api.Controllers
         }
 
         /// <summary>
-        /// Remove type of reaction.
+        /// Remove reaction by author and key.
         /// </summary>
+        /// <param name="key">Entity key</param>
+        /// <param name="author">Author of reaction</param>
         /// <response code="200">Remove reaction by key and author.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpDelete("{key}")]
-        public async Task<ActionResult<IDictionary<string, int>>> DeleteAsync([FromRoute] string key, [Required, FromHeader] string author)
+        [HttpDelete("{key}/author")]
+        public async Task<ActionResult<IDictionary<string, int>>> DeleteByAuthorAsync(
+            [FromRoute] string key,
+            [Required, FromHeader] string author)
         {
             if (!(await reactionStorage.GetStats(key)).Any())
             {
                 return NotFound();
             }
-
-            await reactionStorage.DeleteAsync(key, author);
+            
+            await reactionStorage.DeleteByAuthorAsync(key, author);
 
             return Ok(await reactionStorage.GetStats(key));
         }
 
         /// <summary>
-        /// Update type of reaction.
+        /// Remove all reactions.
         /// </summary>
-        /// <response code="200">Update type of reaction by key and author.</response>
+        /// <param name="key">Entity key</param>
+        /// <response code="200">Remove all reactions by key.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPut("{key}/{type}")]
-        public async Task<ActionResult<IDictionary<string, int>>> UpdateAsync(
-            [FromRoute] string key,
-            [FromRoute] string type,
-            [Required, FromHeader] string author)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpDelete("{key}")]
+        public async Task<ActionResult<IDictionary<string, int>>> DeleteAsync([FromRoute] string key)
         {
-            await reactionStorage.UpsertAsync(key, author, type);
+            await reactionStorage.DeleteAsync(key);
 
             return Ok(await reactionStorage.GetStats(key));
         }
