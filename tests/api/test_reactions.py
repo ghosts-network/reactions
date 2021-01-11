@@ -3,8 +3,9 @@ from src.api import Api
 class TestReactions(Api):
     def test_get_nonexistent_reaction(self):
         resp = self.get_reaction_by_key('nonexistent-id')
+        stats = resp.json()
 
-        assert resp.status_code == 404
+        assert resp.status_code == 200 and stats == {}
 
     def test_get_reaction_by_key(self):
         self.post_reaction({'key': 'Post_Test', 'author': 'Test_Author', 'type': 'like'})
@@ -73,5 +74,6 @@ class TestReactions(Api):
         reaction_key = 'nonexistent-id'
 
         resp = self.delete_all_reactions(reaction_key)
+        stats = resp.json()
 
-        assert resp.status_code == 404
+        assert resp.status_code == 200 and stats == {}

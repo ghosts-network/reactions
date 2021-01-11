@@ -28,14 +28,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [HttpGet("{key}")]
         public async Task<ActionResult<IDictionary<string, int>>> GetAsync([FromRoute] string key)
         {
-            var reaction = await reactionStorage.GetStats(key);
-
-            if (!reaction.Any())
-            {
-                return NotFound();
-            }
-
-            return Ok(reaction);
+            return Ok(await reactionStorage.GetStats(key));
         }
 
         /// <summary>
@@ -51,14 +44,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
             [FromRoute] string key,
             [Required, FromHeader] string author)
         {
-            var result = await reactionStorage.GetReactionByAuthor(key, author);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(result);
+            return Ok(await reactionStorage.GetReactionByAuthor(key, author));
         }
 
         /// <summary>
@@ -114,11 +100,6 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [HttpDelete("{key}")]
         public async Task<ActionResult<IDictionary<string, int>>> DeleteAsync([FromRoute] string key)
         {
-            if (!(await reactionStorage.GetStats(key)).Any())
-            {
-                return NotFound();
-            }
-
             await reactionStorage.DeleteAsync(key);
 
             return Ok(await reactionStorage.GetStats(key));
