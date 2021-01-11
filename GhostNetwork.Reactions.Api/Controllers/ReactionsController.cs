@@ -24,7 +24,6 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <param name="key">Entity key</param>
         /// <response code="200">Returns stats for one entity by key.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{key}")]
         public async Task<ActionResult<IDictionary<string, int>>> GetAsync([FromRoute] string key)
         {
@@ -38,7 +37,6 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <param name="author">Author of reaction</param>
         /// <response code="200">Returns reaction by author and key.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{key}/author")]
         public async Task<ActionResult<Reaction>> GetReactionByAuthor(
             [FromRoute] string key,
@@ -96,7 +94,6 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <param name="key">Entity key</param>
         /// <response code="200">Remove all reactions by key.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{key}")]
         public async Task<ActionResult<IDictionary<string, int>>> DeleteAsync([FromRoute] string key)
         {
