@@ -84,7 +84,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
             {
                 return NotFound();
             }
-            
+
             await reactionStorage.DeleteByAuthorAsync(key, author);
 
             return Ok(await reactionStorage.GetStats(key));
