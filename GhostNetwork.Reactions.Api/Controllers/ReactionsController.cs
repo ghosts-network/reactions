@@ -60,6 +60,18 @@ namespace GhostNetwork.Reactions.Api.Controllers
         }
 
         /// <summary>
+        /// Returns reactions stats for many publications.
+        /// </summary>
+        /// <param name="keys">Entity keys</param>
+        /// <response code="200">Returns reactions stats for many publications.</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("many")]
+        public async Task<ActionResult<IDictionary<string, IDictionary<string, int>>>> GetReactionForManyPublications([FromQuery]string[] keys)
+        {
+            return Ok(await reactionStorage.GetReactionsForManyPublications(keys));
+        }
+
+        /// <summary>
         /// Add type of reaction to entity.
         /// </summary>
         /// <param name="key">Entity key</param>
