@@ -24,18 +24,10 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <param name="key">Entity key</param>
         /// <response code="200">Returns stats for one entity by key.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{key}")]
         public async Task<ActionResult<IDictionary<string, int>>> GetAsync([FromRoute] string key)
         {
-            var result = await reactionStorage.GetStats(key);
-
-            if (!result.Any())
-            {
-                return NotFound();
-            }
-
-            return Ok(result);
+            return Ok(await reactionStorage.GetStats(key));
         }
 
         /// <summary>
@@ -45,20 +37,12 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <param name="author">Author of reaction</param>
         /// <response code="200">Returns reaction by author and key.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{key}/author")]
         public async Task<ActionResult<Reaction>> GetReactionByAuthor(
             [FromRoute] string key,
             [Required, FromHeader] string author)
         {
-            var result = await reactionStorage.GetReactionByAuthor(key, author);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(result);
+            return Ok(await reactionStorage.GetReactionByAuthor(key, author));
         }
 
         /// <summary>
@@ -78,7 +62,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
         {
             await reactionStorage.UpsertAsync(key, author, type);
 
-            return Ok(await reactionStorage.GetStats(key));
+            return Created(string.Empty, await reactionStorage.GetStats(key));
         }
 
         /// <summary>
@@ -94,6 +78,11 @@ namespace GhostNetwork.Reactions.Api.Controllers
             [FromRoute] string key,
             [Required, FromHeader] string author)
         {
+            if (!(await reactionStorage.GetStats(key)).Any())
+            {
+                return NotFound();
+            }
+
             await reactionStorage.DeleteByAuthorAsync(key, author);
 
             return Ok(await reactionStorage.GetStats(key));
@@ -105,7 +94,6 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <param name="key">Entity key</param>
         /// <response code="200">Remove all reactions by key.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{key}")]
         public async Task<ActionResult<IDictionary<string, int>>> DeleteAsync([FromRoute] string key)
         {
