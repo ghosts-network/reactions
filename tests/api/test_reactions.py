@@ -3,9 +3,7 @@ from src.api import Api
 class TestReactions(Api):
     def test_get_nonexistent_reaction(self):
         resp = self.get_reaction_by_key('nonexistent-id')
-
         assert resp.status_code == 404
-        assert resp.json() == {}
 
     def test_get_reaction_by_key(self):
         self.post_reaction({'key': 'Post_Test', 'author': 'Test_Author', 'type': 'like'})
@@ -15,7 +13,39 @@ class TestReactions(Api):
 
         assert resp.status_code == 200
 
-    def test_put_reaction(self):
+    def test_get_reaction_by_author(self):
+        key = 'Post_Test'
+
+        self.post_reaction({'key': key, 'author': 'Test_Author', 'type': 'like'})
+        self.post_reaction({'key': key, 'author': 'Test_Author2', 'type': 'wow'})
+
+        resp = self.get_reaction_by_author(key, 'Test_Author')
+        resp_body = resp.json()
+
+        assert resp.status_code == 200 and resp_body['type'] == 'like'
+
+    def test_get_nonexistent_reaction_by_author(self):
+        self.post_reaction({'key': 'Post_Test', 'author': 'Test_Author', 'type': 'like'})
+
+        resp = self.get_reaction_by_author('Post_Test', 'nonexistent-id')
+        
+        assert resp.status_code == 404
+
+    def test_get_reactions_for_many_publications(self):
+        self.post_reaction({'key': 'Post_Test', 'author': 'Test_Author', 'type': 'wow'})
+        self.post_reaction({'key': 'Post_Test', 'author': 'Test_Author2', 'type': 'like'})
+        self.post_reaction({'key': 'Post_Test2', 'author': 'Test_Author', 'type': 'wow'})
+
+        resp = self.get_reaction_for_many_publication(['Post_Test', 'Post_Test2' ])
+        resp_body = resp.json()
+        
+        first_publication = resp_body['Post_Test']
+        second_publication = resp_body['Post_Test2']
+
+        assert resp.status_code == 200 and ('Post_Test' in resp_body) and ('Post_Test2' in resp_body)
+        assert ('like' in first_publication) and ('wow' in first_publication) and ('wow' in second_publication)
+
+    def test_post_reaction(self):
         reaction = {'key': 'Post_Test', 'author': 'Test_Author', 'type': 'like'}
 
         self.post_reaction(reaction)
@@ -33,9 +63,8 @@ class TestReactions(Api):
         self.post_reaction({'key': reaction_key, 'author': reaction_author, 'type': 'like'})
 
         delete_resp = self.delete_reaction_by_author(reaction_key, reaction_author)
-        delete_resp_body = delete_resp.json()
 
-        assert delete_resp_body == {}
+        assert delete_resp.status_code == 200
 
     def test_delete_by_author_nonexistent_reaction(self):
         reaction_key = 'nonexistent-id'
