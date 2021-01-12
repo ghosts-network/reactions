@@ -8,6 +8,21 @@ class Api:
 
     return requests.get(url, headers = headers)
 
+  def get_reaction_by_author(self, key, author):
+    url = 'http://localhost:5000/reactions/' + key + '/author'
+    headers = {'Content-Type': 'application/json', 'Author': author}
+
+    return requests.get(url, headers = headers)
+
+  def get_reaction_for_many_publication(self, keys):
+    url = 'http://localhost:5000/reactions/many?'
+    headers = {'Content-Type': 'application/json' }
+
+    for key in keys:
+      url += ('keys=' + key) + '&'
+
+    return requests.get(url, headers = headers)
+
   def post_reaction(self, body):
     url = 'http://localhost:5000/reactions/{key}/{type}'.format(
         key = body['key'], type = body['type']
