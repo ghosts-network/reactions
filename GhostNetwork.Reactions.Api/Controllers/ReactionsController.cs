@@ -27,7 +27,14 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [HttpGet("{key}")]
         public async Task<ActionResult<IDictionary<string, int>>> GetAsync([FromRoute] string key)
         {
-            return Ok(await reactionStorage.GetStats(key));
+            var result = await reactionStorage.GetStats(key);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         /// <summary>
@@ -42,7 +49,14 @@ namespace GhostNetwork.Reactions.Api.Controllers
             [FromRoute] string key,
             [Required, FromHeader] string author)
         {
-            return Ok(await reactionStorage.GetReactionByAuthor(key, author));
+            var result = await reactionStorage.GetReactionByAuthor(key, author);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         /// <summary>

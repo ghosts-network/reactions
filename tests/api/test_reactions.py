@@ -3,9 +3,9 @@ from src.api import Api
 class TestReactions(Api):
     def test_get_nonexistent_reaction(self):
         resp = self.get_reaction_by_key('nonexistent-id')
-        stats = resp.json()
 
-        assert resp.status_code == 200 and stats == {}
+        assert resp.status_code == 404
+        assert resp.json() == {}
 
     def test_get_reaction_by_key(self):
         self.post_reaction({'key': 'Post_Test', 'author': 'Test_Author', 'type': 'like'})
