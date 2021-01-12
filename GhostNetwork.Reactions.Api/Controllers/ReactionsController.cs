@@ -29,7 +29,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
         {
             var result = await reactionStorage.GetStats(key);
 
-            if (result == null)
+            if (!result.Any())
             {
                 return NotFound();
             }
