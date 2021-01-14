@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using GhostNetwork.Reactions.Api.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -62,13 +63,13 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <summary>
         /// Returns reactions stats for many publications.
         /// </summary>
-        /// <param name="keys">Entity keys</param>
-        /// <response code="200">Returns reactions stats for many publications.</response>
+        /// <param name="model">Array of publications ids</param>
+        /// <response code="200">Returns reactions stats for many publications by publications ids.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpGet("many")]
-        public async Task<ActionResult<IDictionary<string, IDictionary<string, int>>>> GetReactionForManyPublications([FromQuery]string[] keys)
+        [HttpPost("grouped")]
+        public async Task<ActionResult<IDictionary<string, IDictionary<string, int>>>> GetGroupedReactions([FromBody]GroupedQuery model)
         {
-            return Ok(await reactionStorage.GetReactionsForManyPublications(keys));
+            return Ok(await reactionStorage.GetGroupedReaction(model.PublicationIds));
         }
 
         /// <summary>
