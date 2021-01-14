@@ -67,9 +67,9 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <response code="200">Returns reactions stats for many publications by publications ids.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("grouped")]
-        public async Task<ActionResult<IDictionary<string, IDictionary<string, int>>>> GetGroupedReactions([FromBody]GroupedQuery model)
+        public async Task<ActionResult<IDictionary<string, IDictionary<string, int>>>> GetGroupedReactionsAsync([FromBody]GroupedQuery model)
         {
-            return Ok(await reactionStorage.GetGroupedReactions(model.PublicationIds));
+            return Ok(await reactionStorage.GetGroupedReactionsAsync(model.PublicationIds));
         }
 
         /// <summary>

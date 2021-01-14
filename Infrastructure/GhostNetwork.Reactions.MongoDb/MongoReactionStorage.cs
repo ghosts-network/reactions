@@ -38,7 +38,7 @@ namespace GhostNetwork.Reactions.MongoDb
             return reaction == null ? null : ToDomain(reaction);
         }
 
-        public async Task<IDictionary<string, Dictionary<string, int>>> GetGroupedReactions(string[] keys)
+        public async Task<IDictionary<string, Dictionary<string, int>>> GetGroupedReactionsAsync(string[] keys)
         {
             var filter = Builders<ReactionEntity>.Filter.In(p => p.Key, keys);
             var reactions = await context.Reactions.Find(filter).ToListAsync();
