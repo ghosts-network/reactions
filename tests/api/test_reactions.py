@@ -31,7 +31,7 @@ class TestReactions(Api):
         
         assert resp.status_code == 404
 
-    def test_get_reactions_for_many_publications(self):
+    def test_get_grouped_reactions(self):
         self.post_reaction({'key': 'Post_Test', 'author': 'Test_Author', 'type': 'wow'})
         self.post_reaction({'key': 'Post_Test', 'author': 'Test_Author2', 'type': 'like'})
         self.post_reaction({'key': 'Post_Test2', 'author': 'Test_Author', 'type': 'wow'})

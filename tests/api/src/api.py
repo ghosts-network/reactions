@@ -14,7 +14,7 @@ class Api:
 
     return requests.get(url, headers = headers)
 
-  def get_reaction_for_many_publication(self, body):
+  def get_grouped_reactions(self, body):
     url = 'http://localhost:5000/reactions/grouped'
     headers = {'Content-Type': 'application/json' }
 
