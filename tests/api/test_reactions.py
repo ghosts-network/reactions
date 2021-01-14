@@ -38,7 +38,7 @@ class TestReactions(Api):
         
         body = {'publicationIds': ['Post_Test', 'Post_Test2']}
 
-        resp = self.get_reaction_for_many_publication(body)
+        resp = self.get_grouped_reactions(body)
         resp_body = resp.json()
         
         first_publication = resp_body['Post_Test']
