@@ -14,14 +14,11 @@ class Api:
 
     return requests.get(url, headers = headers)
 
-  def get_reaction_for_many_publication(self, keys):
-    url = 'http://localhost:5000/reactions/many?'
+  def get_reaction_for_many_publication(self, body):
+    url = 'http://localhost:5000/reactions/grouped'
     headers = {'Content-Type': 'application/json' }
 
-    for key in keys:
-      url += ('keys=' + key) + '&'
-
-    return requests.get(url, headers = headers)
+    return requests.post(url, headers = headers, data = json.dumps(body))
 
   def post_reaction(self, body):
     url = 'http://localhost:5000/reactions/{key}/{type}'.format(

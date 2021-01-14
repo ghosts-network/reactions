@@ -35,8 +35,10 @@ class TestReactions(Api):
         self.post_reaction({'key': 'Post_Test', 'author': 'Test_Author', 'type': 'wow'})
         self.post_reaction({'key': 'Post_Test', 'author': 'Test_Author2', 'type': 'like'})
         self.post_reaction({'key': 'Post_Test2', 'author': 'Test_Author', 'type': 'wow'})
+        
+        body = {'publicationIds': ['Post_Test', 'Post_Test2']}
 
-        resp = self.get_reaction_for_many_publication(['Post_Test', 'Post_Test2' ])
+        resp = self.get_reaction_for_many_publication(body)
         resp_body = resp.json()
         
         first_publication = resp_body['Post_Test']
