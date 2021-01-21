@@ -61,13 +61,27 @@ namespace GhostNetwork.Reactions.Api.Controllers
         }
 
         /// <summary>
+        /// Returns many reactions by author.
+        /// </summary>
+        /// <param name="author">Author of reaction</param>
+        /// <param name="model">Array of publications ids</param>
+        /// <response code="200">Returns reactions filtered by author and keys.</response>
+        [HttpPost("many-by-author")]
+        public async Task<ActionResult<IDictionary<string, IDictionary<string, string>>>> GetReactionsByAuthorAsync(
+            [Required, FromHeader] string author,
+            [FromBody] ReactionsQuery model)
+        {
+            return Ok(await reactionStorage.GetReactionsByAuthorAsync(author, model.PublicationIds));
+        }
+
+        /// <summary>
         /// Returns reactions stats for many publications.
         /// </summary>
         /// <param name="model">Array of publications ids</param>
         /// <response code="200">Returns reactions stats for many publications by publications ids.</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("grouped")]
-        public async Task<ActionResult<IDictionary<string, IDictionary<string, int>>>> GetGroupedReactionsAsync([FromBody]GroupedQuery model)
+        public async Task<ActionResult<IDictionary<string, IDictionary<string, int>>>> GetGroupedReactionsAsync([FromBody]ReactionsQuery model)
         {
             return Ok(await reactionStorage.GetGroupedReactionsAsync(model.PublicationIds));
         }
