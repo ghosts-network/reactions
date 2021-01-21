@@ -1,7 +1,9 @@
+using System.Collections.Generic;
+
 namespace GhostNetwork.Reactions.Api.Models
 {
     public class ReactionsQuery
     {
-        public string[] PublicationIds { get; set; }
+        public IEnumerable<string> PublicationIds { get; set; }
     }
 }

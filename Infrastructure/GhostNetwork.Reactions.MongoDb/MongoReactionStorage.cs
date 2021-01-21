@@ -40,7 +40,7 @@ namespace GhostNetwork.Reactions.MongoDb
             return reaction == null ? null : ToDomain(reaction);
         }
 
-        public async Task<IEnumerable<Reaction>> GetReactionsByAuthorAsync(string author, string[] keys)
+        public async Task<IEnumerable<Reaction>> GetReactionsByAuthorAsync(string author, IEnumerable<string> keys)
         {
             var authorFilter = Builders<ReactionEntity>.Filter.Eq(p => p.Author, author);
             var keysFilter = keys.Any() ? Builders<ReactionEntity>.Filter.In(p => p.Key, keys) : FilterDefinition<ReactionEntity>.Empty;
@@ -50,7 +50,7 @@ namespace GhostNetwork.Reactions.MongoDb
             return ToDomain(reactions);
         }
 
-        public async Task<IDictionary<string, Dictionary<string, int>>> GetGroupedReactionsAsync(string[] keys)
+        public async Task<IDictionary<string, Dictionary<string, int>>> GetGroupedReactionsAsync(IEnumerable<string> keys)
         {
             var filter = Builders<ReactionEntity>.Filter.In(p => p.Key, keys);
 
