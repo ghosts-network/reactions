@@ -107,8 +107,12 @@ namespace GhostNetwork.Reactions.MongoDb
 
         private static Reaction ToDomain(ReactionEntity entity)
         {
-            return new Reaction(
-                entity.Type);
+            return new Reaction(entity.Key, entity.Type);
+        }
+
+        private static IEnumerable<Reaction> ToDomain(IEnumerable<ReactionEntity> entities)
+        {
+            return entities.Select(entity => new Reaction(entity.Key, entity.Type));
         }
     }
 }
