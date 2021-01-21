@@ -30,7 +30,7 @@ namespace GhostNetwork.Reactions.MongoDb
                 .ToDictionary(rg => rg.Key, rg => rg.Count());
         }
 
-        public async Task<Reaction> GetReactionByAuthor(string key, string author)
+        public async Task<Reaction> GetReactionByAuthorAsync(string key, string author)
         {
             var filter = Builders<ReactionEntity>.Filter.Eq(p => p.Key, key)
                          & Builders<ReactionEntity>.Filter.Eq(p => p.Author, author);

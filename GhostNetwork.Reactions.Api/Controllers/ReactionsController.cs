@@ -50,7 +50,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
             [FromRoute] string key,
             [Required, FromHeader] string author)
         {
-            var result = await reactionStorage.GetReactionByAuthor(key, author);
+            var result = await reactionStorage.GetReactionByAuthorAsync(key, author);
 
             if (result == null)
             {
