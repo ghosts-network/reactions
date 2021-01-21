@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GhostNetwork.Reactions.MongoDb.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace GhostNetwork.Reactions.MongoDb
@@ -36,6 +38,35 @@ namespace GhostNetwork.Reactions.MongoDb
             var reaction = await context.Reactions.Find(filter).FirstOrDefaultAsync();
 
             return reaction == null ? null : ToDomain(reaction);
+        }
+
+        public async Task<IDictionary<string, Dictionary<string, int>>> GetGroupedReactionsAsync(string[] keys)
+        {
+            var filter = Builders<ReactionEntity>.Filter.In(p => p.Key, keys);
+
+            var reactions = await context.Reactions.Aggregate()
+                .Match(filter)
+                .Group<GroupedReaction>(new BsonDocument
+                {
+                    {
+                        "_id", new BsonDocument
+                        {
+                            { "type", "$Type" },
+                            { "key", "$Key" }
+                        }
+                    },
+                    {
+                        "count", new BsonDocument
+                        {
+                            { "$sum", 1 }
+                        }
+                    }
+                })
+                .ToListAsync();
+
+            return reactions
+                .GroupBy(g => g.Key.Key)
+                .ToDictionary(k => k.Key, value => value.GroupBy(r => r.Key.Type).ToDictionary(rg => rg.Key, rg => rg.First().Count));
         }
 
         public async Task UpsertAsync(string key, string author, string type)
