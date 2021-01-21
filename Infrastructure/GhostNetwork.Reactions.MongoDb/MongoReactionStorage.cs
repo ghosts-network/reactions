@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace GhostNetwork.Reactions.MongoDb
@@ -42,6 +43,26 @@ namespace GhostNetwork.Reactions.MongoDb
         {
             var filter = Builders<ReactionEntity>.Filter.In(p => p.Key, keys);
             var reactions = await context.Reactions.Find(filter).ToListAsync();
+
+            var react = await context.Reactions.Aggregate()
+                .Match(filter)
+                .Group(new BsonDocument
+                {
+                    {
+                        "_id", new BsonDocument
+                        {
+                            { "type", "$Type" },
+                            { "key", "$Key" }
+                        }
+                    },
+                    {
+                        "count", new BsonDocument
+                        {
+                            { "$sum", 1 }
+                        }
+                    }
+                })
+                .ToListAsync();
 
             return reactions
                 .GroupBy(r => r.Key)
