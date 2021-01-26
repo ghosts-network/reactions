@@ -20,6 +20,12 @@ class Api:
 
     return requests.post(url, headers = headers, data = json.dumps(body))
 
+  def get_search_reactions(self, author, body):
+    url = 'http://localhost:5000/reactions/search?author=' + author
+    headers = {'Content-Type': 'application/json' }
+
+    return requests.post(url, headers = headers, data = json.dumps(body))
+
   def post_reaction(self, body):
     url = 'http://localhost:5000/reactions/{key}/{type}'.format(
         key = body['key'], type = body['type']
