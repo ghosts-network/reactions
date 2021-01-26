@@ -71,7 +71,8 @@ namespace GhostNetwork.Reactions.Api.Controllers
             [Required, FromQuery] string author,
             [FromBody] ReactionsQuery model)
         {
-            return Ok(await reactionStorage.GetReactionsByAuthorAsync(author, model.Keys.Union(model.PublicationIds)));
+            var pubIds = model.PublicationIds ?? Enumerable.Empty<string>();
+            return Ok(await reactionStorage.GetReactionsByAuthorAsync(author, model.Keys?.Union(pubIds) ?? pubIds));
         }
 
         /// <summary>
@@ -83,7 +84,8 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [HttpPost("grouped")]
         public async Task<ActionResult<IDictionary<string, IDictionary<string, int>>>> GetGroupedReactionsAsync([FromBody]ReactionsQuery model)
         {
-            return Ok(await reactionStorage.GetGroupedReactionsAsync(model.Keys.Union(model.PublicationIds)));
+            var pubIds = model.PublicationIds ?? Enumerable.Empty<string>();
+            return Ok(await reactionStorage.GetGroupedReactionsAsync(model.Keys?.Union(pubIds) ?? pubIds));
         }
 
         /// <summary>
