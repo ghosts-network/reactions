@@ -36,7 +36,7 @@ class TestReactions(Api):
         self.post_reaction({'key': 'Post_Test', 'author': 'Test_Author2', 'type': 'like'})
         self.post_reaction({'key': 'Post_Test2', 'author': 'Test_Author', 'type': 'wow'})
         
-        body = {'publicationIds': ['Post_Test', 'Post_Test2']}
+        body = {'keys': ['Post_Test', 'Post_Test2']}
 
         resp = self.get_grouped_reactions(body)
         resp_body = resp.json()
@@ -46,6 +46,22 @@ class TestReactions(Api):
 
         assert resp.status_code == 200 and ('Post_Test' in resp_body) and ('Post_Test2' in resp_body)
         assert ('like' in first_publication) and ('wow' in first_publication) and ('wow' in second_publication)
+
+    def test_search_by_author(self):
+        author = 'Test_Author'
+
+        self.post_reaction({'key': 'Post_Test', 'author': author, 'type': 'wow'})
+        self.post_reaction({'key': 'Post_Test', 'author': author, 'type': 'like'})
+
+        body = {'keys' : ['Post_Test', 'Post_Test2']}
+
+        resp = self.get_search_reactions(author, body)
+
+        first_reaction = resp.json()[0]
+        second_reaction = resp.json()[1]
+
+        assert resp.status_code == 200
+        assert first_reaction['type'] == 'wow' and second_reaction['type'] == 'like'
 
     def test_post_reaction(self):
         reaction = {'key': 'Post_Test', 'author': 'Test_Author', 'type': 'like'}

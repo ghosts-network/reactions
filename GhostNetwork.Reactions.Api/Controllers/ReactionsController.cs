@@ -67,11 +67,12 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <param name="model">Array of publications ids</param>
         /// <response code="200">Returns reactions filtered by author and keys.</response>
         [HttpPost("search")]
-        public async Task<ActionResult<IDictionary<string, IDictionary<string, string>>>> GetReactionsByAuthorAsync(
+        public async Task<ActionResult<IEnumerable<Reaction>>> GetReactionsByAuthorAsync(
             [Required, FromQuery] string author,
             [FromBody] ReactionsQuery model)
         {
-            return Ok(await reactionStorage.GetReactionsByAuthorAsync(author, model.PublicationIds));
+            var pubIds = model.PublicationIds ?? Enumerable.Empty<string>();
+            return Ok(await reactionStorage.GetReactionsByAuthorAsync(author, model.Keys?.Union(pubIds) ?? pubIds));
         }
 
         /// <summary>
@@ -83,7 +84,8 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [HttpPost("grouped")]
         public async Task<ActionResult<IDictionary<string, IDictionary<string, int>>>> GetGroupedReactionsAsync([FromBody]ReactionsQuery model)
         {
-            return Ok(await reactionStorage.GetGroupedReactionsAsync(model.PublicationIds));
+            var pubIds = model.PublicationIds ?? Enumerable.Empty<string>();
+            return Ok(await reactionStorage.GetGroupedReactionsAsync(model.Keys?.Union(pubIds) ?? pubIds));
         }
 
         /// <summary>
