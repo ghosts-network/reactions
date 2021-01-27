@@ -47,7 +47,7 @@ class TestReactions(Api):
         assert resp.status_code == 200 and ('Post_Test' in resp_body) and ('Post_Test2' in resp_body)
         assert ('like' in first_publication) and ('wow' in first_publication) and ('wow' in second_publication)
 
-    def test_search_by_many_authors(self):
+    def test_search_by_author(self):
         author = 'Test_Author'
 
         self.post_reaction({'key': 'Post_Test', 'author': author, 'type': 'wow'})
