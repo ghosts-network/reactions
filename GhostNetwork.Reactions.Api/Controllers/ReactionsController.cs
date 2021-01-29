@@ -67,7 +67,7 @@ namespace GhostNetwork.Reactions.Api.Controllers
         /// <param name="model">Array of publications ids</param>
         /// <response code="200">Returns reactions filtered by author and keys.</response>
         [HttpPost("search")]
-        public async Task<ActionResult<IEnumerable<Reaction>>> GetReactionsByAuthorAsync(
+        public async Task<ActionResult<IEnumerable<Reaction>>> SearchAsync(
             [Required, FromQuery] string author,
             [FromBody] ReactionsQuery model)
         {
