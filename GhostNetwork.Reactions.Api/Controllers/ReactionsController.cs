@@ -71,7 +71,9 @@ namespace GhostNetwork.Reactions.Api.Controllers
             [Required, FromQuery] string author,
             [FromBody] ReactionsQuery model)
         {
+#pragma warning disable 618
             var pubIds = model.PublicationIds ?? Enumerable.Empty<string>();
+#pragma warning restore 618
             return Ok(await reactionStorage.GetReactionsByAuthorAsync(author, model.Keys?.Union(pubIds) ?? pubIds));
         }
 
@@ -84,7 +86,9 @@ namespace GhostNetwork.Reactions.Api.Controllers
         [HttpPost("grouped")]
         public async Task<ActionResult<IDictionary<string, IDictionary<string, int>>>> GetGroupedReactionsAsync([FromBody]ReactionsQuery model)
         {
+#pragma warning disable 618
             var pubIds = model.PublicationIds ?? Enumerable.Empty<string>();
+#pragma warning restore 618
             return Ok(await reactionStorage.GetGroupedReactionsAsync(model.Keys?.Union(pubIds) ?? pubIds));
         }
 
